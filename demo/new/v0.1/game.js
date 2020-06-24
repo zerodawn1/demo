@@ -108,7 +108,8 @@ class Game{
 		this.scene.add( light );
 
 
-		// model
+		// models
+		
 		const loader = new THREE.FBXLoader();
 		const game = this;
 
