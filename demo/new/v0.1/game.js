@@ -54,7 +54,7 @@ class Game{
 		this.mode = this.modes.PRELOAD;
 
 		document.getElementById("camera-btn").onclick = function(){ game.switchCamera(); };
-		// document.getElementById("briefcase-btn").onclick = function(){ game.toggleBriefcase(); };
+		document.getElementById("briefcase-btn").onclick = function(){ game.toggleBriefcase(); };
 
 		this.clock = new THREE.Clock();
 		//this.init();
@@ -86,7 +86,7 @@ class Game{
 
 		this.camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
 
-		let col = 0x605050;
+		let col = 0x202020;
 		this.scene = new THREE.Scene();
 		this.scene.background = new THREE.Color( col );
 		this.scene.fog = new THREE.Fog( col, 500, 1500 );
@@ -109,7 +109,7 @@ class Game{
 
 
 		// models
-		
+
 		const loader = new THREE.FBXLoader();
 		const game = this;
 
@@ -129,6 +129,23 @@ class Game{
 					child.receiveShadow = true;
 				}
 			} );
+
+			loader.load( `${this.assetsPath}fbx/1-thankful-maid.fbx`, function (object) {
+
+ 				object.mixer = new THREE.AnimationMixer(object);
+				object.castShadow = false;
+
+				game.player.mixer = object.mixer;
+				game.player.root = object.mixer.getRoot();
+
+				object.name = "Maid";
+					if (child.isMesh){
+						child.castShadow = false;
+						child.receiveShadow = false;
+					}else{
+						child.MeshBasicMaterial = true;
+					}
+			}
 
 			game.scene.add(object);
 			game.player.object = object;
